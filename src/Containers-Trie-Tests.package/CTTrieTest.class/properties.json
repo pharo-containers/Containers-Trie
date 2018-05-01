@@ -1,0 +1,13 @@
+{
+	"commentStamp" : "BenoitStJean 6/13/2013 01:35",
+	"super" : "TestCase",
+	"category" : "Containers-Trie-Tests",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"trie"
+	],
+	"name" : "CTTrieTest",
+	"type" : "normal"
+}

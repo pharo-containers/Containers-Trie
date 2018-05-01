@@ -1,0 +1,15 @@
+{
+	"commentStamp" : "BenoitStJean 6/13/2013 01:34",
+	"super" : "Object",
+	"category" : "Containers-Trie",
+	"classinstvars" : [ ],
+	"pools" : [ ],
+	"classvars" : [ ],
+	"instvars" : [
+		"character",
+		"children",
+		"nodeValue"
+	],
+	"name" : "CTTrie",
+	"type" : "normal"
+}
