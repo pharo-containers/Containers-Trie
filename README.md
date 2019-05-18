@@ -32,10 +32,6 @@ spec
    with: [ spec repository: 'github://Ducasse/Containers-Trie/src' ].
 ```
 
-## History
-I harvested the code from the old SmalltalkHub/PharoExtras repository. Interested archeologues can find relevant commit history there. 
-http://www.smalltalkhub.com/#!/~PharoExtras/OrderPreservingDictionary
-
 ----
 The best way to predict the future is to do it!
 Less talking more doing. stepharo.self@gmail.com
