@@ -26,13 +26,13 @@ CTTrieTest class >> license [
 CTTrieTest >> setUp [
 	"example taken from  <http://en.wikipedia.org/wiki/Trie>"
 
-
+	super setUp.
 	trie := CTTrie wikipediaSampleInstance
 ]
 
 { #category : #running }
 CTTrieTest >> tearDown [
-
+	super tearDown.
 	trie := nil
 ]
 
@@ -48,11 +48,11 @@ CTTrieTest >> testAddValue [
 
 	self assert: (aTrie find: 'one') notNil.
 	self assert: (aTrie contains: 'one').
-	self assert: ((aTrie find: 'one') nodeValue = 1).
+	self assert: (aTrie find: 'one') nodeValue equals: 1.
 	
 	self assert: (aTrie find: 'two') notNil.
 	self assert: (aTrie contains: 'two').
-	self assert: ((aTrie find: 'two') nodeValue = 2).
+	self assert: (aTrie find: 'two') nodeValue equals: 2.
 	
 	self assert: (aTrie find: 'fourth') notNil.
 	self assert: (aTrie contains: 'fourth').
@@ -60,7 +60,7 @@ CTTrieTest >> testAddValue [
 	
 	self assert: (aTrie find: 'four') notNil.
 	self assert: (aTrie contains: 'four').
-	self assert: ((aTrie find: 'four') nodeValue = 4).
+	self assert: (aTrie find: 'four') nodeValue equals: 4
 	
 
 ]
@@ -87,19 +87,19 @@ CTTrieTest >> testAddValueWithBlock [
 
 	self assert: (aTrie find: 'one') notNil.
 	self assert: (aTrie contains: 'one').
-	self assert: ((aTrie find: 'one') nodeValue = 1).
+	self assert: (aTrie find: 'one') nodeValue equals: 1.
 	
 	self assert: (aTrie find: 'two') notNil.
 	self assert: (aTrie contains: 'two').
-	self assert: ((aTrie find: 'two') nodeValue = 2).
+	self assert: (aTrie find: 'two') nodeValue equals: 2.
 	
 	self assert: (aTrie find: 'fourth') notNil.
 	self assert: (aTrie contains: 'fourth').
-	self assert: ((aTrie find: 'fourth') nodeValue = '4th').
+	self assert: (aTrie find: 'fourth') nodeValue equals: '4th'.
 	
 	self assert: (aTrie find: 'four') notNil.
 	self assert: (aTrie contains: 'four').
-	self assert: ((aTrie find: 'four') nodeValue = 4).
+	self assert: (aTrie find: 'four') nodeValue equals: 4.
 ]
 
 { #category : #testing }

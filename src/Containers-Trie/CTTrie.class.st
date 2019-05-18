@@ -1,5 +1,5 @@
 "
-A tree for storing strings in which there is one node for every common prefix. The strings (words) are *usually* stored in extra leaf nodes.  The root of a Trie can be recognized by the fact that its caracter instance variable is <nil>.  Words can be determined by the fact that the node completing the word has a nodeValue.  Note that a word does not have to be found at a leaf node (e.g. the word ""in"", see Wipidedia example at link given below).
+A tree for storing strings in which there is one node for every common prefix. The strings (words) are *usually* stored in extra leaf nodes.  The root of a Trie can be recognized by the fact that its character instance variable is <nil>.  Words can be determined by the fact that the node completing the word has a nodeValue.  Note that a word does not have to be found at a leaf node (e.g. the word ""in"", see Wipidedia example at link given below).
 
 See <http://en.wikipedia.org/wiki/Trie> for more details.  
 
@@ -30,7 +30,7 @@ Class {
 		'children',
 		'nodeValue'
 	],
-	#category : 'Containers-Trie'
+	#category : #'Containers-Trie'
 }
 
 { #category : #license }
