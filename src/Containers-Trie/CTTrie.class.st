@@ -65,7 +65,13 @@ CTTrie class >> newWithCharacter: aCharacter [
 
 { #category : #'instance creation - bulk' }
 CTTrie class >> readFromFile: anObject [
-	"A utility method that allows to bulk load a file containing one word per line and add them all to a trie structure"
+	^ self readFromFile: anObject withLineTransformer: [ :str | str ]
+]
+
+{ #category : #'instance creation - bulk' }
+CTTrie class >> readFromFile: anObject withLineTransformer: aBlock [
+	"A utility method that allows to bulk load a file containing one word per line and add them all to a trie structure.
+	 aBlock allows one to convert the line before inserting it in the trie (for example one can convert it as lowercase)."
 
 	| aTrie fileReference |
 	
@@ -77,7 +83,7 @@ CTTrie class >> readFromFile: anObject [
 		[ lineReader atEnd ]
 			whileFalse: [ 
 				|word|
-				word := lineReader nextLine.
+				word := aBlock value: lineReader nextLine.
 				aTrie add: word value: word size ] ].
 	^ aTrie
 
