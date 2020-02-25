@@ -22,20 +22,14 @@ CTTrieTest class >> license [
 	"
 ]
 
-{ #category : #tests }
+{ #category : #utils }
 CTTrieTest >> classUnderTest [
 	
 	^ CTTrie
 ]
 
-{ #category : #test }
+{ #category : #utils }
 CTTrieTest >> newInstance [
-	
-	^ self classUnderTest new
-]
-
-{ #category : #test }
-CTTrieTest >> newNodeInstance [
 	
 	^ self classUnderTest new
 ]
@@ -52,35 +46,6 @@ CTTrieTest >> setUp [
 CTTrieTest >> tearDown [
 	super tearDown.
 	trie := nil
-]
-
-{ #category : #'tests - adding' }
-CTTrieTest >> testAddValue [
-	| aTrie |
-	
-	aTrie := self newInstance.
-	aTrie add: 'one' value: 1.
-	aTrie add: 'two' value: 2.
-	aTrie add: 'fourth' value: '4th'.
-	aTrie add: 'four' value: 4.
-
-	self assert: (aTrie find: 'one') notNil.
-	self assert: (aTrie contains: 'one').
-	self assert: (aTrie find: 'one') nodeValue equals: 1.
-	
-	self assert: (aTrie find: 'two') notNil.
-	self assert: (aTrie contains: 'two').
-	self assert: (aTrie find: 'two') nodeValue equals: 2.
-	
-	self assert: (aTrie find: 'fourth') notNil.
-	self assert: (aTrie contains: 'fourth').
-	self assert: ((aTrie find: 'fourth') nodeValue = '4th').
-	
-	self assert: (aTrie find: 'four') notNil.
-	self assert: (aTrie contains: 'four').
-	self assert: (aTrie find: 'four') nodeValue equals: 4
-	
-
 ]
 
 { #category : #'tests - adding' }
@@ -120,14 +85,26 @@ CTTrieTest >> testAddValueWithBlock [
 	self assert: (aTrie find: 'four') nodeValue equals: 4.
 ]
 
-{ #category : #testing }
+{ #category : #'tests - adding' }
 CTTrieTest >> testAddWord [
 	| unTrie |
 	unTrie := self newInstance.
-	unTrie add: 'bon' value: 3.
+	unTrie at: 'bon' put: 3.
 	self assert: (unTrie contains: 'bon').
 	self assert: (unTrie find: 'bon') notNil.
-	self assert: (unTrie find: 'bon') nodeValue = 3
+	self assert: (unTrie find: 'bon') nodeValue equals: 3
+]
+
+{ #category : #'tests - querying' }
+CTTrieTest >> testAllValues [
+	| aTrie |
+
+	aTrie := self newInstance.
+	aTrie at: 'one' put: 1.
+	aTrie at: 'two' put: 2.
+	aTrie at: 'three' put: 3.
+	
+	self assertCollection: #(1 2 3) hasSameElements: aTrie allValues
 ]
 
 { #category : #'tests - testing' }
@@ -136,6 +113,79 @@ CTTrieTest >> testAnEmptyTrieDoesNotContainPrefix [
 	self deny: (self newInstance containsPrefix: 'z').
 
 	
+]
+
+{ #category : #'tests - adding' }
+CTTrieTest >> testAt [
+	| aTrie |
+
+	aTrie := self newInstance.
+	aTrie at: 'one' put: 1.
+	
+	self assert: (aTrie at: 'one') equals: 1.
+	self should: [aTrie at: 'two'] raise: KeyNotFound.	
+]
+
+{ #category : #'tests - adding' }
+CTTrieTest >> testAtIfAbsent [
+	| aTrie |
+
+	aTrie := self newInstance.
+	aTrie at: 'one' put: 1.
+	
+	self assert: (aTrie at: 'one' ifAbsent: [self error]) equals: 1.
+	self assert: (aTrie at: 'two' ifAbsent: [2]) equals: 2.	
+]
+
+{ #category : #'tests - adding' }
+CTTrieTest >> testAtPut [
+	| aTrie |
+
+	aTrie := self newInstance.
+	aTrie at: 'one' put: 1.
+	aTrie at: 'two' put: 2.
+	aTrie at: 'fourth' put: '4th'.
+	aTrie at: 'four' put: 4.
+
+	self assert: (aTrie find: 'one') notNil.
+	self assert: (aTrie contains: 'one').
+	self assert: (aTrie find: 'one') nodeValue equals: 1.
+	self assert: (aTrie find: 'two') notNil.
+	self assert: (aTrie contains: 'two').
+	self assert: (aTrie find: 'two') nodeValue equals: 2.
+	self assert: (aTrie find: 'fourth') notNil.
+	self assert: (aTrie contains: 'fourth').
+	self assert: (aTrie find: 'fourth') nodeValue equals: '4th'.
+	self assert: (aTrie find: 'four') notNil.
+	self assert: (aTrie contains: 'four').
+	self assert: (aTrie find: 'four') nodeValue equals: 4
+]
+
+{ #category : #'tests - adding' }
+CTTrieTest >> testAtUpdate [
+	| aTrie |
+
+	aTrie := self newInstance.
+	aTrie at: 'one' put: 1.
+	
+	aTrie at: 'one' update: [:oldValue | oldValue * 3].
+	
+	self assert: (aTrie at: 'one') equals: 3.
+	self should: [aTrie at: 'two' update: [:oldValue | oldValue * 3]] raise: KeyNotFound.	
+]
+
+{ #category : #'tests - adding' }
+CTTrieTest >> testAtUpdateInitial [
+	| aTrie |
+
+	aTrie := self newInstance.
+	aTrie at: 'one' put: 1.
+	
+	aTrie at: 'one' update: [:oldValue | oldValue * 3] initial: [self error].
+	aTrie at: 'two' update: [self error] initial: [2].
+	
+	self assert: (aTrie at: 'one') equals: 3.
+	self assert: (aTrie at: 'two') equals: 2.
 ]
 
 { #category : #'tests - testing' }
@@ -192,31 +242,29 @@ CTTrieTest >> testContainsPrefix [
 	self deny: (trie containsPrefix: 'innz')
 ]
 
-{ #category : #'tests - testing' }
+{ #category : #'tests - nodes' }
 CTTrieTest >> testIsLeaf [
 	| aTrie aWord aLongerWord aNode |
-	aTrie := self newNodeInstance.
-	self deny: aTrie isLeaf.
+	aTrie := self newInstance.
+	self deny: aTrie rootNode isLeaf.
 
 	"Just add a node with a private method"
-	aNode := aTrie addChildWithLetter: $r.
+	aNode := aTrie rootNode addChildWithLetter: $r.
 	self deny: aNode isLeaf.
-	aTrie add: 'rush' value: 2112.
+	aTrie at: 'rush' put: 2112.
 	aWord := aTrie find: 'rush'.
 	self assert: aWord isLeaf.
-	self deny: aTrie isLeaf.
+	self deny: aTrie rootNode isLeaf.
 
 	"Add a longer word with rush as prefix so rush is no longer a leaf"
-	aTrie add: 'rushed' value: 1.
+	aTrie at: 'rushed' put: 1.
 	aWord := aTrie find: 'rush'.
 	self deny: aWord isLeaf.
 	aLongerWord := aTrie find: 'rushed'.
-	self assert: aLongerWord isLeaf.
-
-	
+	self assert: aLongerWord isLeaf
 ]
 
-{ #category : #'tests - testing' }
+{ #category : #'tests - nodes' }
 CTTrieTest >> testIsLeafWikipediaExample [
 
 	self assert: (trie find: 'to') isLeaf.
@@ -229,115 +277,95 @@ CTTrieTest >> testIsLeafWikipediaExample [
 	self deny: (trie find: 'in') isLeaf
 ]
 
-{ #category : #'tests - testing' }
+{ #category : #'tests - nodes' }
 CTTrieTest >> testIsNode [
 	| aTrie aWord aLongerWord aNode |
-	
-	aTrie := self newNodeInstance.
-	self deny: aTrie isNode.
-	
-	"Just add a node with a private method"
-	aNode := aTrie addChildWithLetter: $r.
-	self assert: aNode isNode.	
-	
-	aTrie add: 'rush' value: 2112.
-	aWord := aTrie find: 'rush'.
-	
-	self assert: aWord isNode.
-	self deny: aTrie isNode.
-	
-	"Add a longer word with rush as prefix so rush is no longer a leaf"	
-	aTrie add: 'rushed' value: 1.
+	aTrie := self newInstance.
+	self deny: aTrie rootNode isNode.
 
+	"Just add a node with a private method"
+	aNode := aTrie rootNode addChildWithLetter: $r.
+	self assert: aNode isNode.
+	aTrie at: 'rush' put: 2112.
+	aWord := aTrie find: 'rush'.
+	self assert: aWord isNode.
+	self deny: aTrie rootNode isNode.
+
+	"Add a longer word with rush as prefix so rush is no longer a leaf"
+	aTrie at: 'rushed' put: 1.
 	aWord := aTrie find: 'rush'.
 	self assert: aWord isNode.
 	aLongerWord := aTrie find: 'rushed'.
 	self assert: aLongerWord isNode.
-	
+
 	"now, back to our wikipedia example"
 	self assert: (trie find: 'to') isNode.
 	self assert: (trie find: 'tea') isNode.
 	self assert: (trie find: 'ted') isNode.
 	self assert: (trie find: 'ten') isNode.
 	self assert: (trie find: 'a') isNode.
-	self assert: (trie find: 'i') isNode.	
+	self assert: (trie find: 'i') isNode.
 	self assert: (trie find: 'inn') isNode.
 	self assert: (trie find: 'in') isNode.
-	self deny: trie isNode
-
-
-	
-	
-	
+	self deny: trie rootNode isNode
 ]
 
-{ #category : #'tests - testing' }
+{ #category : #'tests - nodes' }
 CTTrieTest >> testIsRoot [
 	| aTrie aWord aLongerWord aNode |
-	
-	aTrie := self newNodeInstance.
-	self assert: aTrie isRoot.
-	
-	"Just add a node with a private method"
-	aNode := aTrie addChildWithLetter: $r.
-	self deny: aNode isRoot.	
-	
-	aTrie add: 'rush' value: 2112.
-	aWord := aTrie find: 'rush'.
-	
-	self deny: aWord isRoot.
-	self assert: aTrie isRoot.
-	
-	"Add a longer word with rush as prefix so rush is no longer a leaf"	
-	aTrie add: 'rushed' value: 1.
+	aTrie := self newInstance.
+	self assert: aTrie rootNode isRoot.
 
+	"Just add a node with a private method"
+	aNode := aTrie rootNode addChildWithLetter: $r.
+	self deny: aNode isRoot.
+	aTrie at: 'rush' put: 2112.
+	aWord := aTrie find: 'rush'.
+	self deny: aWord isRoot.
+	self assert: aTrie rootNode isRoot.
+
+	"Add a longer word with rush as prefix so rush is no longer a leaf"
+	aTrie at: 'rushed' put: 1.
 	aWord := aTrie find: 'rush'.
 	self deny: aWord isRoot.
 	aLongerWord := aTrie find: 'rushed'.
 	self deny: aLongerWord isRoot.
-	
+
 	"now, back to our wikipedia example"
 	self deny: (trie find: 'to') isRoot.
 	self deny: (trie find: 'tea') isRoot.
 	self deny: (trie find: 'ted') isRoot.
 	self deny: (trie find: 'ten') isRoot.
 	self deny: (trie find: 'a') isRoot.
-	self deny: (trie find: 'i') isRoot.	
+	self deny: (trie find: 'i') isRoot.
 	self deny: (trie find: 'inn') isRoot.
 	self deny: (trie find: 'in') isRoot.
-	self assert: trie isRoot
-
-
-	
-	
-	
+	self assert: trie rootNode isRoot
 ]
 
-{ #category : #'tests - testing' }
+{ #category : #'tests - nodes' }
 CTTrieTest >> testIsWord [
 	| aTrie aWord aLongerWord aNode |
-	aTrie := self newNodeInstance.
-	self deny: aTrie isWord.
+	aTrie := self newInstance.
+	self deny: aTrie rootNode isWord.
 
 	"Just add a node with a private method"
-	aNode := aTrie addChildWithLetter: $r.
+	aNode := aTrie rootNode addChildWithLetter: $r.
 	self deny: aNode isWord.
-	aTrie add: 'rush' value: 2112.
+	aTrie at: 'rush' put: 2112.
 	aWord := aTrie find: 'rush'.
 	self assert: aWord isWord.
-	self deny: aTrie isWord.
+	self deny: aTrie rootNode isWord.
 
 	"Add a longer word with rush as prefix so rush is no longer a leaf"
-	aTrie add: 'rushed' value: 1.
+	aTrie at: 'rushed' put: 1.
 	aWord := aTrie find: 'rush'.
 	self assert: aWord isWord.
 	aLongerWord := aTrie find: 'rushed'.
-	self assert: aLongerWord isWord.
-
-	
+	self assert: aLongerWord isWord
 ]
 
-{ #category : #'tests - testing' }
+{ #category : #'tests - nodes' }
 CTTrieTest >> testIsWordWikipediaExample [
 
 	self assert: (trie find: 'to') isWord.
@@ -348,4 +376,64 @@ CTTrieTest >> testIsWordWikipediaExample [
 	self assert: (trie find: 'i') isWord.
 	self assert: (trie find: 'inn') isWord.
 	self assert: (trie find: 'in') isWord
+]
+
+{ #category : #'tests - querying' }
+CTTrieTest >> testWithAllValuesBeginningWithdo [
+
+	| aTrie |
+
+	aTrie := self newInstance.
+	aTrie at: 'one' put: 1.
+	aTrie at: 'two' put: 2.
+	aTrie at: 'three' put: 3.
+
+	self assertCollection: #(2 3) hasSameElements: (aTrie allValuesBeginningWith: 't')
+]
+
+{ #category : #'tests - querying' }
+CTTrieTest >> testWithAllValuesBeginningWithdoWithEmptyCollection [
+
+	| aTrie |
+
+	aTrie := self newInstance.
+	self assertCollection: #() hasSameElements: (aTrie allValuesBeginningWith: 'z')
+]
+
+{ #category : #'tests - querying' }
+CTTrieTest >> testWithAllValuesBeginningWithdoWithEmptyResults [
+
+	| aTrie |
+
+	aTrie := self newInstance.
+	aTrie at: 'one' put: 1.
+	aTrie at: 'two' put: 2.
+	aTrie at: 'three' put: 3.
+	
+	self assertCollection: #() hasSameElements: (aTrie allValuesBeginningWith: 'z')
+]
+
+{ #category : #'tests - querying' }
+CTTrieTest >> testWithAllValuesDo [
+	| aTrie elements |
+
+	aTrie := self newInstance.
+	aTrie at: 'one' put: 1.
+	aTrie at: 'two' put: 2.
+	aTrie at: 'three' put: 3.
+
+	elements := OrderedCollection new.
+	aTrie withAllValuesDo: [ :e | elements add: e ].
+	
+	self assertCollection: #(1 2 3) hasSameElements: elements
+]
+
+{ #category : #'tests - querying' }
+CTTrieTest >> testWithAllValuesDoOnEmptyDoesNotCall [
+	| aTrie |
+
+	aTrie := self newInstance.
+
+	self shouldnt: [ aTrie withAllValuesDo: [ self error ] ] raise: Error.
+
 ]
