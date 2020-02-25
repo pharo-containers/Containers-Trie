@@ -83,6 +83,8 @@ CTTrieTest >> testAddValueWithBlock [
 	self assert: (aTrie find: 'four') notNil.
 	self assert: (aTrie contains: 'four').
 	self assert: (aTrie find: 'four') nodeValue equals: 4.
+
+	self assert: (trie isCompressed)	
 ]
 
 { #category : #'tests - adding' }
@@ -172,6 +174,9 @@ CTTrieTest >> testAtUpdate [
 	
 	self assert: (aTrie at: 'one') equals: 3.
 	self should: [aTrie at: 'two' update: [:oldValue | oldValue * 3]] raise: KeyNotFound.	
+	
+	"Check if the Trie is still compressed"
+	self assert: aTrie isCompressed.
 ]
 
 { #category : #'tests - adding' }
@@ -186,6 +191,24 @@ CTTrieTest >> testAtUpdateInitial [
 	
 	self assert: (aTrie at: 'one') equals: 3.
 	self assert: (aTrie at: 'two') equals: 2.
+	
+	
+	"Check if the Trie is still compressed"
+	self assert: aTrie isCompressed.
+]
+
+{ #category : #'tests - adding' }
+CTTrieTest >> testAtUpdateWithNilValueRemovesTheKey [
+	| aTrie |
+
+	aTrie := self newInstance.
+	aTrie at: 'one' put: 1.
+	
+	aTrie at: 'one' update: [:oldValue | nil].
+	self should: [aTrie at: 'two'] raise: KeyNotFound.	
+	
+	"Check if the Trie is still compressed"
+	self assert: aTrie isCompressed.
 ]
 
 { #category : #'tests - testing' }
@@ -243,6 +266,20 @@ CTTrieTest >> testContainsPrefix [
 ]
 
 { #category : #'tests - nodes' }
+CTTrieTest >> testIsCompressed [
+
+	| aTrie |
+
+	aTrie := self newInstance.
+	aTrie at: 'one' put: 1.
+	aTrie at: 'two' put: 1.
+	aTrie at: 'three' put: 1.
+	aTrie at: 'four' put: 1.
+
+	self assert: aTrie isCompressed
+]
+
+{ #category : #'tests - nodes' }
 CTTrieTest >> testIsLeaf [
 	| aTrie aWord aLongerWord aNode |
 	aTrie := self newInstance.
@@ -274,7 +311,9 @@ CTTrieTest >> testIsLeafWikipediaExample [
 	self assert: (trie find: 'a') isLeaf.
 	self deny: (trie find: 'i') isLeaf.
 	self assert: (trie find: 'inn') isLeaf.
-	self deny: (trie find: 'in') isLeaf
+	self deny: (trie find: 'in') isLeaf.
+	
+	self assert: (trie isCompressed)
 ]
 
 { #category : #'tests - nodes' }
@@ -308,6 +347,22 @@ CTTrieTest >> testIsNode [
 	self assert: (trie find: 'inn') isNode.
 	self assert: (trie find: 'in') isNode.
 	self deny: trie rootNode isNode
+]
+
+{ #category : #'tests - nodes' }
+CTTrieTest >> testIsNotCompressed [
+
+	| aTrie |
+
+	aTrie := self newInstance.
+	aTrie at: 'one' put: 1.
+	aTrie at: 'two' put: 1.
+	aTrie at: 'three' put: 1.
+	aTrie at: 'four' put: 1.
+
+	(aTrie find: 'three') nodeValue: nil.
+		
+	self deny: aTrie isCompressed
 ]
 
 { #category : #'tests - nodes' }
@@ -376,6 +431,107 @@ CTTrieTest >> testIsWordWikipediaExample [
 	self assert: (trie find: 'i') isWord.
 	self assert: (trie find: 'inn') isWord.
 	self assert: (trie find: 'in') isWord
+]
+
+{ #category : #'tests - removing' }
+CTTrieTest >> testRemoveKey [
+	| aTrie |
+
+	aTrie := self newInstance.
+	aTrie at: 'one' put: 1.
+	aTrie at: 'two' put: 2.
+	aTrie at: 'three' put: 3.
+
+	self assert: (aTrie removeKey: 'one') equals: 1.
+	self should: [ aTrie at:'one' ] raise: KeyNotFound.
+	self should: [aTrie removeKey: 'one'] raise: KeyNotFound.
+	
+	"Check if the Trie is still compressed"
+	self assert: aTrie isCompressed.
+]
+
+{ #category : #'tests - removing' }
+CTTrieTest >> testRemoveKeyIfAbsent [
+	| aTrie |
+
+	aTrie := self newInstance.
+	aTrie at: 'one' put: 1.
+	aTrie at: 'two' put: 2.
+	aTrie at: 'three' put: 3.
+
+	self assert: (aTrie removeKey: 'one' ifAbsent: [ self error ]) equals: 1.
+	self should: [ aTrie at:'one' ] raise: KeyNotFound.
+	self assert: (aTrie removeKey: 'one' ifAbsent: [ 2 ]) equals: 2.
+	
+	"Check if the Trie is still compressed"
+	self assert: aTrie isCompressed.
+]
+
+{ #category : #'tests - removing' }
+CTTrieTest >> testRemoveKeyOfANodeWithChilds [
+	| aTrie |
+
+	aTrie := self newInstance.
+	aTrie at: 'one' put: 1.
+	aTrie at: 't' put: 1.5.
+	aTrie at: 'two' put: 2.
+	aTrie at: 'three' put: 3.
+
+	self assert: (aTrie removeKey: 't') equals: 1.5.
+
+	self assert: (aTrie findPrefix: 't') isNotNil.
+	self deny: (aTrie findPrefix: 't') isWord.
+	self assert: (aTrie findPrefix: 't') nodeValue isNil.
+	self assert: (aTrie findPrefix: 't') children size equals: 2.
+
+	self assert: (aTrie at: 'two') equals: 2.
+	self assert: (aTrie at: 'three') equals: 3.
+	
+	"Check if the Trie is still compressed"
+	self assert: aTrie isCompressed.	
+
+
+	
+]
+
+{ #category : #'tests - removing' }
+CTTrieTest >> testRemoveKeyOfANodeWithoutChilds [
+	| aTrie |
+
+	aTrie := self newInstance.
+	aTrie at: 'one' put: 1.
+	aTrie at: 'z' put: 1.5.
+	aTrie at: 'two' put: 2.
+	aTrie at: 'three' put: 3.
+
+	self assert: (aTrie findPrefix: 'z') isNotNil.
+	self assert: (aTrie findPrefix: 'z') isWord.
+	self assert: (aTrie findPrefix: 'z') children size equals: 0.
+
+	self assert: (aTrie removeKey: 'z') equals: 1.5.
+
+	self assert: (aTrie findPrefix: 'z') isNil.
+
+	"Check if the Trie is still compressed"
+	self assert: aTrie isCompressed.
+
+
+	
+]
+
+{ #category : #'tests - nodes' }
+CTTrieTest >> testRemovingWikipediaExampleKeepsCompressed [
+
+	#('to' 'tea' 'ted' 'ten' 'a' 'inn' 'i' 'in') 
+		do: [ :aKey | trie removeKey: aKey. self assert: trie isCompressed ]
+
+
+]
+
+{ #category : #'tests - nodes' }
+CTTrieTest >> testWikipediaExampleIsCompressed [
+
+	self assert: trie isCompressed
 ]
 
 { #category : #'tests - querying' }

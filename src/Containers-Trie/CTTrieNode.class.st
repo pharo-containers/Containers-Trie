@@ -69,6 +69,14 @@ CTTrieNode >> initialize [
 ]
 
 { #category : #testing }
+CTTrieNode >> isCompressed [
+
+	^ children
+		ifEmpty: [ self isWord ]
+		ifNotEmpty: [ children allSatisfy: [ :aChild | aChild isCompressed ] ]
+]
+
+{ #category : #testing }
 CTTrieNode >> isLeaf [
 
 	^self isWord and: [self children isEmpty]
@@ -108,6 +116,9 @@ CTTrieNode >> printOn: aStream [
 	super printOn: aStream.
 	aStream
 		cr;
+		nextPutAll: 'character : ';
+		print: self character;
+		cr;
 		nextPutAll: 'children : ';
 		print: self children keys asSortedCollection;
 		cr;
@@ -115,7 +126,10 @@ CTTrieNode >> printOn: aStream [
 		print: self nodeValue;
 		cr;
 		nextPutAll: 'leaf : ';
-		print: self isLeaf.
+		print: self isLeaf;
+		cr;
+		nextPutAll: 'isCompressed : ';
+		print: self isCompressed.		
 ]
 
 { #category : #accessing }
