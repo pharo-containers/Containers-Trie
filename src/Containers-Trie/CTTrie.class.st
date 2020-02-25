@@ -96,7 +96,7 @@ CTTrie class >> wikipediaSampleInstance [
 	<sampleInstance>
 	"example taken from  <http://en.wikipedia.org/wiki/Trie>"
 	| trie |
-	trie := CTTrie new.
+	trie := self new.
 	"insert short words then long words"
 	trie add: 'to' value: 7.
 	trie add: 'tea' value: 3.
@@ -147,7 +147,7 @@ CTTrie >> add: aString valueWithBlock: aValueBlock [
 			currentNode := child notNil
 				ifTrue: [ child ]
 				ifFalse: [ currentNode addChildWithLetter: each ] ].
-	currentNode nodeValue: (aValueBlock value: aString)
+	currentNode nodeValue: (aValueBlock cull: aString cull: currentNode nodeValue )
 ]
 
 { #category : #private }
@@ -234,6 +234,22 @@ CTTrie >> find: aString [
 ]
 
 { #category : #private }
+CTTrie >> findBegining: aString [ 
+	"Answers a <Trie> if the word <aString> is found in the receiver, <nil> otherwise"
+	|  currentNode |
+	
+	currentNode := self.
+	aString do: [:each | 	| child  |
+			
+							child := currentNode findChildWithLetter: each.
+							child notNil
+								ifTrue: [currentNode := child ]
+								ifFalse: [^nil]
+							 ].
+	^ currentNode
+]
+
+{ #category : #private }
 CTTrie >> findChildWithLetter: aCharacter [
 
 	^self children at: aCharacter ifAbsent: [nil]
@@ -294,4 +310,11 @@ CTTrie >> printOn: aStream [
 		cr;
 		nextPutAll: 'leaf : ';
 		nextPutAll: self isLeaf printString.
+]
+
+{ #category : #accessing }
+CTTrie >> withAllChildrenDo: aBlock [ 
+
+	aBlock value: self.
+	children do: [ :aChild | aChild withAllChildrenDo: aBlock ]
 ]

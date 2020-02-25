@@ -9,7 +9,7 @@ Class {
 	#instVars : [
 		'trie'
 	],
-	#category : 'Containers-Trie-Tests'
+	#category : #'Containers-Trie-Tests'
 }
 
 { #category : #license }
@@ -22,12 +22,30 @@ CTTrieTest class >> license [
 	"
 ]
 
+{ #category : #tests }
+CTTrieTest >> classUnderTest [
+	
+	^ CTTrie
+]
+
+{ #category : #test }
+CTTrieTest >> newInstance [
+	
+	^ self classUnderTest new
+]
+
+{ #category : #test }
+CTTrieTest >> newNodeInstance [
+	
+	^ self classUnderTest new
+]
+
 { #category : #running }
 CTTrieTest >> setUp [
 	"example taken from  <http://en.wikipedia.org/wiki/Trie>"
 
 	super setUp.
-	trie := CTTrie wikipediaSampleInstance
+	trie := self classUnderTest wikipediaSampleInstance
 ]
 
 { #category : #running }
@@ -40,7 +58,7 @@ CTTrieTest >> tearDown [
 CTTrieTest >> testAddValue [
 	| aTrie |
 	
-	aTrie := CTTrie new.
+	aTrie := self newInstance.
 	aTrie add: 'one' value: 1.
 	aTrie add: 'two' value: 2.
 	aTrie add: 'fourth' value: '4th'.
@@ -79,7 +97,7 @@ CTTrieTest >> testAddValueWithBlock [
 																ifTrue: [4]
 																ifFalse: [0]]]]].
 	
-	aTrie := CTTrie new.
+	aTrie := self newInstance.
 	aTrie add: 'one' valueWithBlock: aBlock.
 	aTrie add: 'two' valueWithBlock: aBlock.
 	aTrie add: 'fourth' valueWithBlock: aBlock.
@@ -105,7 +123,7 @@ CTTrieTest >> testAddValueWithBlock [
 { #category : #testing }
 CTTrieTest >> testAddWord [
 	| unTrie |
-	unTrie := CTTrie new.
+	unTrie := self newInstance.
 	unTrie add: 'bon' value: 3.
 	self assert: (unTrie contains: 'bon').
 	self assert: (unTrie find: 'bon') notNil.
@@ -115,7 +133,7 @@ CTTrieTest >> testAddWord [
 { #category : #'tests - testing' }
 CTTrieTest >> testAnEmptyTrieDoesNotContainPrefix [
 
-	self deny: (CTTrie new containsPrefix: 'z').
+	self deny: (self newInstance containsPrefix: 'z').
 
 	
 ]
@@ -123,7 +141,7 @@ CTTrieTest >> testAnEmptyTrieDoesNotContainPrefix [
 { #category : #'tests - testing' }
 CTTrieTest >> testContains [
 	| aTrie |
-	aTrie := CTTrie new.
+	aTrie := self newInstance.
 	self deny: (aTrie contains: 'z').
 
 	"now, back to our wikipedia example"
@@ -177,7 +195,7 @@ CTTrieTest >> testContainsPrefix [
 { #category : #'tests - testing' }
 CTTrieTest >> testIsLeaf [
 	| aTrie aWord aLongerWord aNode |
-	aTrie := CTTrie new.
+	aTrie := self newNodeInstance.
 	self deny: aTrie isLeaf.
 
 	"Just add a node with a private method"
@@ -215,7 +233,7 @@ CTTrieTest >> testIsLeafWikipediaExample [
 CTTrieTest >> testIsNode [
 	| aTrie aWord aLongerWord aNode |
 	
-	aTrie := CTTrie new.
+	aTrie := self newNodeInstance.
 	self deny: aTrie isNode.
 	
 	"Just add a node with a private method"
@@ -257,7 +275,7 @@ CTTrieTest >> testIsNode [
 CTTrieTest >> testIsRoot [
 	| aTrie aWord aLongerWord aNode |
 	
-	aTrie := CTTrie new.
+	aTrie := self newNodeInstance.
 	self assert: aTrie isRoot.
 	
 	"Just add a node with a private method"
@@ -298,7 +316,7 @@ CTTrieTest >> testIsRoot [
 { #category : #'tests - testing' }
 CTTrieTest >> testIsWord [
 	| aTrie aWord aLongerWord aNode |
-	aTrie := CTTrie new.
+	aTrie := self newNodeInstance.
 	self deny: aTrie isWord.
 
 	"Just add a node with a private method"
