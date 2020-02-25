@@ -126,10 +126,7 @@ CTTrieNode >> printOn: aStream [
 		print: self nodeValue;
 		cr;
 		nextPutAll: 'leaf : ';
-		print: self isLeaf;
-		cr;
-		nextPutAll: 'isCompressed : ';
-		print: self isCompressed.		
+		print: self isLeaf.		
 ]
 
 { #category : #accessing }
