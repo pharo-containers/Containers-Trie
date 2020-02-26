@@ -56,9 +56,9 @@ CTTrieNode >> children: anIdentityDictionary [
 ]
 
 { #category : #private }
-CTTrieNode >> findChildWithLetter: aCharacter [
+CTTrieNode >> findChildWithString: aString [
 
-	^self children at: aCharacter ifAbsent: [nil]
+	^self children at: aString ifAbsent: [nil]
 ]
 
 { #category : #initialization }
@@ -71,9 +71,9 @@ CTTrieNode >> initialize [
 { #category : #testing }
 CTTrieNode >> isCompressed [
 
-	^ children
+	^ self children
 		ifEmpty: [ self isWord ]
-		ifNotEmpty: [ children allSatisfy: [ :aChild | aChild isCompressed ] ]
+		ifNotEmpty: [ self children allSatisfy: [ :aChild | aChild isCompressed ] ]
 ]
 
 { #category : #testing }
@@ -129,9 +129,15 @@ CTTrieNode >> printOn: aStream [
 		print: self isLeaf.		
 ]
 
-{ #category : #accessing }
+{ #category : #private }
+CTTrieNode >> removeNode: aNode [ 
+	
+	children removeKey: (children keyAtValue: aNode)
+]
+
+{ #category : #private }
 CTTrieNode >> withAllChildrenDo: aBlock [ 
 
 	aBlock cull: self.
-	children do: [ :aChild | aChild withAllChildrenDo: aBlock ]
+	self children do: [ :aChild | aChild withAllChildrenDo: aBlock ]
 ]
