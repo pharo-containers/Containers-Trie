@@ -1,3 +1,8 @@
+"
+This Trait extracts the common behavior of a Trie. 
+It requires the user to implement #at:update:initial to add/update elements, #findPrefix: to find in it and #removeKey:ifAbsent: to remove elements.
+All the other operations are performed using them.
+"
 Trait {
 	#name : #CTTrieOperations,
 	#category : #'Containers-Trie'
@@ -118,6 +123,22 @@ CTTrieOperations >> findPrefix: aString [
 	self explicitRequirement
 ]
 
+{ #category : #initialization }
+CTTrieOperations >> occupationRate [
+
+	| intermediateNodes nodes |
+	intermediateNodes := 0.
+	nodes := 0.
+
+	self rootNode
+		withAllChildrenDo: [ :aNode | 
+			nodes := nodes + 1.
+			(aNode children size = 1 and: [ aNode isWord not ])
+				ifTrue: [ intermediateNodes := intermediateNodes + 1 ] ].
+
+	^ ((nodes - intermediateNodes) / nodes) asFloat
+]
+
 { #category : #removing }
 CTTrieOperations >> removeKey: aString [
 
@@ -128,13 +149,6 @@ CTTrieOperations >> removeKey: aString [
 CTTrieOperations >> removeKey: aString ifAbsent: anAbsentBlock [
 
 	self explicitRequirement
-]
-
-{ #category : #private }
-CTTrieOperations >> withAllChildrenDo: aBlock [ 
-
-	aBlock cull: self.
-	self children do: [ :aChild | aChild withAllChildrenDo: aBlock ]
 ]
 
 { #category : #querying }

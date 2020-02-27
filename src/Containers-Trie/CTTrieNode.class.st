@@ -8,11 +8,9 @@ Users should not use objects of this class directly, they should use CTTrie.
 "
 Class {
 	#name : #CTTrieNode,
-	#superclass : #Object,
+	#superclass : #CTAbstractTrieNode,
 	#instVars : [
-		'character',
-		'children',
-		'nodeValue'
+		'character'
 	],
 	#category : #'Containers-Trie'
 }
@@ -45,16 +43,6 @@ CTTrieNode >> character: aCharacter [
 	character := aCharacter
 ]
 
-{ #category : #accessing }
-CTTrieNode >> children [
-	^ children
-]
-
-{ #category : #accessing }
-CTTrieNode >> children: anIdentityDictionary [
-	children := anIdentityDictionary
-]
-
 { #category : #private }
 CTTrieNode >> findChildWithString: aString [
 
@@ -69,20 +57,6 @@ CTTrieNode >> initialize [
 ]
 
 { #category : #testing }
-CTTrieNode >> isCompressed [
-
-	^ self children
-		ifEmpty: [ self isWord ]
-		ifNotEmpty: [ self children allSatisfy: [ :aChild | aChild isCompressed ] ]
-]
-
-{ #category : #testing }
-CTTrieNode >> isLeaf [
-
-	^self isWord and: [self children isEmpty]
-]
-
-{ #category : #testing }
 CTTrieNode >> isNode [
 
 	^self isRoot not
@@ -92,22 +66,6 @@ CTTrieNode >> isNode [
 CTTrieNode >> isRoot [
 
 	^self character isNil
-]
-
-{ #category : #testing }
-CTTrieNode >> isWord [
-
-	^self nodeValue notNil
-]
-
-{ #category : #accessing }
-CTTrieNode >> nodeValue [
-	^ nodeValue
-]
-
-{ #category : #accessing }
-CTTrieNode >> nodeValue: anObject [
-	nodeValue := anObject
 ]
 
 { #category : #printing }

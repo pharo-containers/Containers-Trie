@@ -1,3 +1,17 @@
+"
+I implement a Suffix tree using an Optimized Trie as a backend. 
+I am excellent to perform full text search on substrings of the stored strings.
+
+https://en.wikipedia.org/wiki/Suffix_tree
+
+To access me you can use the messages defined in CTTrieOperations.
+
+And also: 
+
+- atSuffixesOf:put: to set the same value to all the suffixes of a given word.
+- atSuffixesOf:update:initial to set or update the same value to all the suffixes of a given word.
+- removeSuffixesOf: to remove all the suffixes of a given word
+"
 Class {
 	#name : #CTSuffixTree,
 	#superclass : #Object,
@@ -48,4 +62,12 @@ CTSuffixTree >> initialize [
 CTSuffixTree >> removeKey: aString ifAbsent: anAbsentBlock [
 
 	^ trie removeKey: aString ifAbsent: anAbsentBlock
+]
+
+{ #category : #accessing }
+CTSuffixTree >> removeSuffixesOf: aString [ 
+
+	aString suffixes do: [:aSuffix | self removeKey: aSuffix ].
+	
+
 ]

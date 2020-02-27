@@ -1,3 +1,29 @@
+"
+I am an optimized version of the trie. 
+I create nodes for a given string only if this is splitted in two.
+
+Normal trie for aWord -> v1, aTord -> v2 and aTerd -> v3
+========================================================
+
+(a) -> (W) -> (o) -> (r) -> (d)-->v1
+  \
+   \-> (T) -> (o) -> (r) -> (d)-->v2
+			\
+          \-> (e) -> (r) -> (d)-->v3
+
+
+
+Optimized trie for aWord -> v1 and aTord -> v2
+===========================================
+
+(a) -> (Word) -->v1
+  \
+   \-> (T) -> (ord)-->v2
+        \
+         \ -> (erd)-->v3
+
+
+"
 Class {
 	#name : #CTOptimizedTrie,
 	#superclass : #CTTrie,
@@ -35,22 +61,6 @@ CTOptimizedTrie >> findPrefix: aString [
 CTOptimizedTrie >> nodeSpecies [
 	
 	^ CTOptimizedTrieNode 
-]
-
-{ #category : #initialization }
-CTOptimizedTrie >> occupationRate [
-
-	| intermedios todos |
-	intermedios := 0.
-	todos := 0.
-
-	self rootNode
-		withAllChildrenDo: [ :aNode | 
-			todos := todos + 1.
-			(aNode children size = 1 and: [ aNode isWord not ])
-				ifTrue: [ intermedios := intermedios + 1 ] ].
-
-	^ ((todos - intermedios) / todos) asFloat
 ]
 
 { #category : #removing }

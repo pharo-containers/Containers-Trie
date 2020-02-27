@@ -1,18 +1,27 @@
+"
+I am the node of a optimized Trie node, I have the children in an array as pairs. 
+I am used inside a CTOptimizedTrie
+The first element is the key and the second the node.
+This nodes have a string as a key, not a single character.
+
+My users should use:
+
+- #findChildWithString: to get my subnode that aplies to the given string, nil if there is not node.
+- #findChildWithString:storingAncestors:adding: to get my subnode that aplies to the given string, nil if there is not node. If the node does not exists, it will be added depending of the adding parameter. Also it will store the ancestors passed to reach the final node. 
+- #removeNode: Removes a node from my self.
+- #withAllChildrenDo: iterates over me and my children.
+
+Private methods are:
+
+- #findKeyIndexToSplit: looks for the correct index of the child to split for a given text. Used during the adding of an element.
+- #splitOn:oldKey: I return a new node that includes myself as a child splitting the string in two, so we can add a sibling of my self to the tree.
+
+"
 Class {
 	#name : #CTOptimizedTrieNode,
-	#superclass : #Object,
-	#instVars : [
-		'children',
-		'nodeValue'
-	],
+	#superclass : #CTAbstractTrieNode,
 	#category : #'Containers-Trie'
 }
-
-{ #category : #private }
-CTOptimizedTrieNode >> addChildWithLetter: aCharacter [
-
-	^ self error: 'Should not be called'
-]
 
 { #category : #accessing }
 CTOptimizedTrieNode >> at: aKey put: aNode [
@@ -32,13 +41,13 @@ CTOptimizedTrieNode >> childrenDictionary [
 	^ Dictionary newFromPairs: children
 ]
 
-{ #category : #private }
+{ #category : #'looking-up' }
 CTOptimizedTrieNode >> findChildWithString: aString [
 
 	^ self findChildWithString: aString storingAncestors: OrderedCollection new adding: false.
 ]
 
-{ #category : #accessing }
+{ #category : #'looking-up' }
 CTOptimizedTrieNode >> findChildWithString: aString storingAncestors: ancestors adding: isAdding [ 
 
 	| newChild keyIndexToSplit splitKey keyToSplit nodeToSplit splittedNode |
@@ -74,7 +83,7 @@ CTOptimizedTrieNode >> findChildWithString: aString storingAncestors: ancestors 
 		
 ]
 
-{ #category : #private }
+{ #category : #'looking-up' }
 CTOptimizedTrieNode >> findKeyIndexToSplit: aString [ 
 	
 	| indexToSplit lengthOfPrefix index |
@@ -101,30 +110,6 @@ CTOptimizedTrieNode >> initialize [
 
 ]
 
-{ #category : #testing }
-CTOptimizedTrieNode >> isCompressed [
-
-	^ children
-		ifEmpty: [ self isWord ]
-		ifNotEmpty: [ self children allSatisfy: [ :aChild | aChild isCompressed ] ]
-]
-
-{ #category : #testing }
-CTOptimizedTrieNode >> isWord [
-	
-	^ nodeValue isNotNil
-]
-
-{ #category : #accessing }
-CTOptimizedTrieNode >> nodeValue [
-	^ nodeValue
-]
-
-{ #category : #accessing }
-CTOptimizedTrieNode >> nodeValue: anInteger [ 
-	nodeValue := anInteger
-]
-
 { #category : #printing }
 CTOptimizedTrieNode >> printOn: aStream [
 
@@ -137,7 +122,7 @@ CTOptimizedTrieNode >> printOn: aStream [
 		print: self nodeValue.
 ]
 
-{ #category : #private }
+{ #category : #'adding - removing' }
 CTOptimizedTrieNode >> removeNode: aNode [ 
 	
 	| nodeIndex keyIndex |
@@ -150,7 +135,7 @@ CTOptimizedTrieNode >> removeNode: aNode [
 	children := children reject: [ :e | e isNil ].
 ]
 
-{ #category : #private }
+{ #category : #'adding - removing' }
 CTOptimizedTrieNode >> splitOn: newKey oldKey: oldKey [ 
 	
 	| index newParent |
@@ -163,7 +148,7 @@ CTOptimizedTrieNode >> splitOn: newKey oldKey: oldKey [
 	^ newParent
 ]
 
-{ #category : #private }
+{ #category : #iterating }
 CTOptimizedTrieNode >> withAllChildrenDo: aBlock [ 
 
 	aBlock cull: self.
