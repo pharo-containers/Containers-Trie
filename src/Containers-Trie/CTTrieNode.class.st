@@ -8,11 +8,9 @@ Users should not use objects of this class directly, they should use CTTrie.
 "
 Class {
 	#name : #CTTrieNode,
-	#superclass : #Object,
+	#superclass : #CTAbstractTrieNode,
 	#instVars : [
-		'character',
-		'children',
-		'nodeValue'
+		'character'
 	],
 	#category : #'Containers-Trie'
 }
@@ -45,20 +43,10 @@ CTTrieNode >> character: aCharacter [
 	character := aCharacter
 ]
 
-{ #category : #accessing }
-CTTrieNode >> children [
-	^ children
-]
-
-{ #category : #accessing }
-CTTrieNode >> children: anIdentityDictionary [
-	children := anIdentityDictionary
-]
-
 { #category : #private }
-CTTrieNode >> findChildWithLetter: aCharacter [
+CTTrieNode >> findChildWithString: aString [
 
-	^self children at: aCharacter ifAbsent: [nil]
+	^self children at: aString ifAbsent: [nil]
 ]
 
 { #category : #initialization }
@@ -66,20 +54,6 @@ CTTrieNode >> initialize [
 	super initialize.
 	children := IdentityDictionary new.
 
-]
-
-{ #category : #testing }
-CTTrieNode >> isCompressed [
-
-	^ children
-		ifEmpty: [ self isWord ]
-		ifNotEmpty: [ children allSatisfy: [ :aChild | aChild isCompressed ] ]
-]
-
-{ #category : #testing }
-CTTrieNode >> isLeaf [
-
-	^self isWord and: [self children isEmpty]
 ]
 
 { #category : #testing }
@@ -92,22 +66,6 @@ CTTrieNode >> isNode [
 CTTrieNode >> isRoot [
 
 	^self character isNil
-]
-
-{ #category : #testing }
-CTTrieNode >> isWord [
-
-	^self nodeValue notNil
-]
-
-{ #category : #accessing }
-CTTrieNode >> nodeValue [
-	^ nodeValue
-]
-
-{ #category : #accessing }
-CTTrieNode >> nodeValue: anObject [
-	nodeValue := anObject
 ]
 
 { #category : #printing }
@@ -126,15 +84,18 @@ CTTrieNode >> printOn: aStream [
 		print: self nodeValue;
 		cr;
 		nextPutAll: 'leaf : ';
-		print: self isLeaf;
-		cr;
-		nextPutAll: 'isCompressed : ';
-		print: self isCompressed.		
+		print: self isLeaf.		
 ]
 
-{ #category : #accessing }
+{ #category : #private }
+CTTrieNode >> removeNode: aNode [ 
+	
+	children removeKey: (children keyAtValue: aNode)
+]
+
+{ #category : #private }
 CTTrieNode >> withAllChildrenDo: aBlock [ 
 
 	aBlock cull: self.
-	children do: [ :aChild | aChild withAllChildrenDo: aBlock ]
+	self children do: [ :aChild | aChild withAllChildrenDo: aBlock ]
 ]
