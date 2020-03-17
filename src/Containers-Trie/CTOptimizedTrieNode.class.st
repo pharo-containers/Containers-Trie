@@ -60,7 +60,13 @@ CTOptimizedTrieNode >> findChildWithString: aString storingAncestors: ancestors 
 	children pairsDo: [ :aKey :aChild | (aString beginsWith: aKey) 
 		ifTrue: [ ^ aChild findChildWithString: (aString allButFirst: aKey size) storingAncestors: ancestors adding: isAdding ] ].
 	
-	isAdding ifFalse: [ ^ nil ].
+	isAdding ifFalse: [ 
+		"If I am not adding, I have to see if any of the children has a key starting with 
+		the text I am looking for"
+		children pairsDo: [ :aKey :aChild | 
+			(aKey beginsWith: aString) 
+				ifTrue: [ ^ aChild] ].
+		^ nil ].
 
 	keyIndexToSplit := self findKeyIndexToSplit: aString.
 	
@@ -108,6 +114,12 @@ CTOptimizedTrieNode >> initialize [
 	super initialize.
 	children := #().
 
+]
+
+{ #category : #accessing }
+CTOptimizedTrieNode >> keys [
+
+	^ children pairsCollect: [ :aKey :aChild | aKey ]
 ]
 
 { #category : #printing }
