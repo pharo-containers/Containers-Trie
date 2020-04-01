@@ -20,7 +20,7 @@ can only load the collection they need without 100 of related collections.
 ```
 Metacello new
    baseline: 'ContainersTrie';
-   repository: 'github://Ducasse/Containers-Trie/src';
+   repository: 'github://pharo-containers/Containers-Trie/src';
    load.
 ```
 
@@ -29,7 +29,7 @@ Metacello new
 ```
 spec 
    baseline: 'ContainersTrie' 
-   with: [ spec repository: 'github://Ducasse/Containers-Trie/src' ].
+   with: [ spec repository: 'github://pharo-containers/Containers-Trie/src' ].
 ```
 
 ----
