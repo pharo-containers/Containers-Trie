@@ -43,6 +43,11 @@ CTTrieNode >> character: aCharacter [
 	character := aCharacter
 ]
 
+{ #category : #accessing }
+CTTrieNode >> childrenDictionary [
+	^ children
+]
+
 { #category : #private }
 CTTrieNode >> findChildWithString: aString [
 
