@@ -151,6 +151,16 @@ CTTrieOperations >> removeKey: aString ifAbsent: anAbsentBlock [
 	self explicitRequirement
 ]
 
+{ #category : #accessing }
+CTTrieOperations >> size [
+
+	"I return the number of entries that I have"
+	| count |
+	count := 0.
+	self withAllValuesDo: [ count := count + 1 ].
+	^ count
+]
+
 { #category : #querying }
 CTTrieOperations >> withAllValuesBeginningWith: aPrefix do: aBlock [
 	
