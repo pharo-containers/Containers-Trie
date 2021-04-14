@@ -1,5 +1,5 @@
 "
-A tree for storing strings in which there is one node for every common prefix. The strings (words) are *usually* stored in extra leaf nodes.  The root of a Trie can be recognized by the fact that its character instance variable is <nil>.  Words can be determined by the fact that the node completing the word has a nodeValue.  Note that a word does not have to be found at a leaf node (e.g. the word ""in"", see Wipidedia example at link given below).
+A tree for storing strings in which there is one node for every common prefix. The strings (words) are *usually* stored in extra leaf nodes.  The root of a Trie can be recognized by the fact that its character instance variable is <nil>.  Words can be determined by the fact that the node completing the word has a nodeValue.  Note that a word does not have to be found at a leaf node (e.g. the word ""in"", see Wikipedia example at link given below).
 
 See <http://en.wikipedia.org/wiki/Trie> for more details.  
 
@@ -30,7 +30,7 @@ CTTrie class >> readFromFile: anObject [
 { #category : #'instance creation - bulk' }
 CTTrie class >> readFromFile: anObject withLineTransformer: aBlock [
 	"A utility method that allows to bulk load a file containing one word per line and add them all to a trie structure.
-	 aBlock allows one to convert the line before inserting it in the trie (for example one can convert it as lowercase)."
+	 aBlock allows one to convert the line before inserting it in the trie (for example one can convert it to lowercase)."
 
 	| aTrie fileReference |
 	
@@ -85,11 +85,11 @@ CTTrie >> add: aString value: anObject [
 ]
 
 { #category : #accessing }
-CTTrie >> at: aString update: updateBlock initial: initBlocktOrValue [
+CTTrie >> at: aString update: updateBlock initial: initBlockOrValue [
 	"I am used to update the value at a given key. The updateBlock is passed 
 	the existing value, and the result of the block is stored back.
-	If the key does not exist, store the value of the initBlocktOrValue.
-	initBlocktOrValue can be a block in case the initial value is expencive to compute."
+	If the key does not exist, store the value of the initBlockOrValue.
+	initBlockOrValue can be a block in case the initial value is expensive to compute."
 
 	| currentNode ancestors |
 	currentNode := root.
@@ -105,7 +105,7 @@ CTTrie >> at: aString update: updateBlock initial: initBlocktOrValue [
 				ifFalse: [ currentNode addChildWithLetter: each ] ].
 	
 	[currentNode nodeValue: (currentNode nodeValue 
-		ifNil: [ initBlocktOrValue value ]
+		ifNil: [ initBlockOrValue value ]
 		ifNotNil: [ :previousValue | updateBlock cull: previousValue])] ensure: [ 
 				self compressNode: currentNode	ancestors: ancestors].		
 		
