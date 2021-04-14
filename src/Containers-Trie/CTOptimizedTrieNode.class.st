@@ -2,12 +2,12 @@
 I am the node of a optimized Trie node, I have the children in an array as pairs. 
 I am used inside a CTOptimizedTrie
 The first element is the key and the second the node.
-This nodes have a string as a key, not a single character.
+These nodes have a string as a key, not a single character.
 
 My users should use:
 
-- #findChildWithString: to get my subnode that aplies to the given string, nil if there is not node.
-- #findChildWithString:storingAncestors:adding: to get my subnode that aplies to the given string, nil if there is not node. If the node does not exists, it will be added depending of the adding parameter. Also it will store the ancestors passed to reach the final node. 
+- #findChildWithString: to get my subnode that applies to the given string, nil if there is no node.
+- #findChildWithString:storingAncestors:adding: to get my subnode that applies to the given string, nil if there is no node. If the node does not exist, it will be added depending on the adding parameter. Also it will store the ancestors passed to reach the final node. 
 - #removeNode: Removes a node from my self.
 - #withAllChildrenDo: iterates over me and my children.
 
