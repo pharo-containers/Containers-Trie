@@ -1,14 +1,34 @@
 language: smalltalk
 sudo: false
 
-# Select operating system(s)
 os:
   - linux
   - osx
 
-# Select compatible Smalltalk image(s)
 smalltalk:
   - Pharo-6.1
   - Pharo-7.0
   - Pharo64-8.0
   - Pharo64-7.0
+
+cache:
+  directories:
+    - $HOME/.smalltalkCI
+
+env:
+  - COVERAGE=true
+
+install:
+  - curl -L https://get.smalltalkci.st | bash
+
+script:
+  - smalltalkci -s "${SMALLTALK}" --coverage
+
+after_success:
+  - if [ "$COVERAGE" = "true" ]; then
+      gem install coveralls-lcov;
+      coveralls-lcov coverage/lcov.info;
+    fi
+
+notifications:
+  email: false
