@@ -13,23 +13,24 @@ And also:
 - removeSuffixesOf: to remove all the suffixes of a given word
 "
 Class {
-	#name : #CTSuffixTree,
-	#superclass : #Object,
+	#name : 'CTSuffixTree',
+	#superclass : 'Object',
 	#traits : 'CTTrieOperations',
 	#classTraits : 'CTTrieOperations classTrait',
 	#instVars : [
 		'trie'
 	],
-	#category : #'Containers-Trie'
+	#category : 'Containers-Trie',
+	#package : 'Containers-Trie'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTSuffixTree >> at: aString update: updateBlock initial: initBlocktOrValue [
 	
 	^ trie at: aString update: updateBlock initial: initBlocktOrValue
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTSuffixTree >> atSuffixesOf: aString put: aValue [.
 
 	aString suffixes do: [:aSuffix | self at: aSuffix put: aValue ].
@@ -37,7 +38,7 @@ CTSuffixTree >> atSuffixesOf: aString put: aValue [.
 	^ aValue
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTSuffixTree >> atSuffixesOf: aString update: updateBlock initial: initBlocktOrValue [
 	
 	aString suffixes do: [:aSuffix | 
@@ -45,26 +46,26 @@ CTSuffixTree >> atSuffixesOf: aString update: updateBlock initial: initBlocktOrV
 
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 CTSuffixTree >> findPrefix: aString [
 
 	^ trie findPrefix: aString
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CTSuffixTree >> initialize [
 
 	super initialize.
 	trie := CTOptimizedTrie new
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 CTSuffixTree >> removeKey: aString ifAbsent: anAbsentBlock [
 
 	^ trie removeKey: aString ifAbsent: anAbsentBlock
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTSuffixTree >> removeSuffixesOf: aString [ 
 
 	aString suffixes do: [:aSuffix | self removeKey: aSuffix ].

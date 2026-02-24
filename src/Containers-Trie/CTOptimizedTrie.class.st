@@ -25,12 +25,13 @@ Optimized trie for aWord -> v1 and aTord -> v2
 
 "
 Class {
-	#name : #CTOptimizedTrie,
-	#superclass : #CTTrie,
-	#category : #'Containers-Trie'
+	#name : 'CTOptimizedTrie',
+	#superclass : 'CTTrie',
+	#category : 'Containers-Trie',
+	#package : 'Containers-Trie'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTOptimizedTrie >> at: aString update: updateBlock initial: initBlocktOrValue [
 	"I am used to update the value at a given key. The updateBlock is passed 
 	the existing value, and the result of the block is stored back.
@@ -50,20 +51,20 @@ CTOptimizedTrie >> at: aString update: updateBlock initial: initBlocktOrValue [
 		
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 CTOptimizedTrie >> findPrefix: aString [
 
 	^ root findChildWithString: aString
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CTOptimizedTrie >> nodeSpecies [
 	
 	^ CTOptimizedTrieNode 
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 CTOptimizedTrie >> removeKey: aString ifAbsent: anAbsentBlock [
 	| currentNode oldValue ancestors |
 

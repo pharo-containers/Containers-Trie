@@ -2,12 +2,12 @@
 I am the node of a optimized Trie node, I have the children in an array as pairs. 
 I am used inside a CTOptimizedTrie
 The first element is the key and the second the node.
-This nodes have a string as a key, not a single character.
+These nodes have a string as a key, not a single character.
 
 My users should use:
 
-- #findChildWithString: to get my subnode that aplies to the given string, nil if there is not node.
-- #findChildWithString:storingAncestors:adding: to get my subnode that aplies to the given string, nil if there is not node. If the node does not exists, it will be added depending of the adding parameter. Also it will store the ancestors passed to reach the final node. 
+- #findChildWithString: to get my subnode that applies to the given string, nil if there is no node.
+- #findChildWithString:storingAncestors:adding: to get my subnode that applies to the given string, nil if there is no node. If the node does not exist, it will be added depending on the adding parameter. Also it will store the ancestors passed to reach the final node. 
 - #removeNode: Removes a node from my self.
 - #withAllChildrenDo: iterates over me and my children.
 
@@ -18,36 +18,37 @@ Private methods are:
 
 "
 Class {
-	#name : #CTOptimizedTrieNode,
-	#superclass : #CTAbstractTrieNode,
-	#category : #'Containers-Trie'
+	#name : 'CTOptimizedTrieNode',
+	#superclass : 'CTAbstractTrieNode',
+	#category : 'Containers-Trie',
+	#package : 'Containers-Trie'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTOptimizedTrieNode >> at: aKey put: aNode [
 
 	children := children , { aKey. aNode }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTOptimizedTrieNode >> children [
 	
 	^ children pairsCollect: [ :aKey :aChild | aChild ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTOptimizedTrieNode >> childrenDictionary [
 	
 	^ Dictionary newFromPairs: children
 ]
 
-{ #category : #'looking-up' }
+{ #category : 'looking-up' }
 CTOptimizedTrieNode >> findChildWithString: aString [
 
 	^ self findChildWithString: aString storingAncestors: OrderedCollection new adding: false.
 ]
 
-{ #category : #'looking-up' }
+{ #category : 'looking-up' }
 CTOptimizedTrieNode >> findChildWithString: aString storingAncestors: ancestors adding: isAdding [ 
 
 	| newChild keyIndexToSplit splitKey keyToSplit nodeToSplit splittedNode |
@@ -89,7 +90,7 @@ CTOptimizedTrieNode >> findChildWithString: aString storingAncestors: ancestors 
 		
 ]
 
-{ #category : #'looking-up' }
+{ #category : 'looking-up' }
 CTOptimizedTrieNode >> findKeyIndexToSplit: aString [ 
 	
 	| indexToSplit lengthOfPrefix index |
@@ -109,20 +110,20 @@ CTOptimizedTrieNode >> findKeyIndexToSplit: aString [
 	^ indexToSplit.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CTOptimizedTrieNode >> initialize [
 	super initialize.
 	children := #().
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTOptimizedTrieNode >> keys [
 
 	^ children pairsCollect: [ :aKey :aChild | aKey ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CTOptimizedTrieNode >> printOn: aStream [
 
 	super printOn: aStream.
@@ -134,7 +135,7 @@ CTOptimizedTrieNode >> printOn: aStream [
 		print: self nodeValue.
 ]
 
-{ #category : #'adding - removing' }
+{ #category : 'adding - removing' }
 CTOptimizedTrieNode >> removeNode: aNode [ 
 	
 	| nodeIndex keyIndex |
@@ -147,7 +148,7 @@ CTOptimizedTrieNode >> removeNode: aNode [
 	children := children reject: [ :e | e isNil ].
 ]
 
-{ #category : #'adding - removing' }
+{ #category : 'adding - removing' }
 CTOptimizedTrieNode >> splitOn: newKey oldKey: oldKey [ 
 	
 	| index newParent |
@@ -160,7 +161,7 @@ CTOptimizedTrieNode >> splitOn: newKey oldKey: oldKey [
 	^ newParent
 ]
 
-{ #category : #iterating }
+{ #category : 'iterating' }
 CTOptimizedTrieNode >> withAllChildrenDo: aBlock [ 
 
 	aBlock cull: self.
