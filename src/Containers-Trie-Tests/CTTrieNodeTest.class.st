@@ -1,10 +1,11 @@
 Class {
-	#name : #CTTrieNodeTest,
-	#superclass : #AbstractCTTrieTest,
-	#category : #'Containers-Trie-Tests'
+	#name : 'CTTrieNodeTest',
+	#superclass : 'AbstractCTTrieTest',
+	#category : 'Containers-Trie-Tests',
+	#package : 'Containers-Trie-Tests'
 }
 
-{ #category : #'tests - nodes' }
+{ #category : 'tests - nodes' }
 CTTrieNodeTest >> testIsLeaf [
 	| aTrie aWord aLongerWord aNode |
 	aTrie := self newInstance.
@@ -26,7 +27,7 @@ CTTrieNodeTest >> testIsLeaf [
 	self assert: aLongerWord isLeaf
 ]
 
-{ #category : #'tests - nodes' }
+{ #category : 'tests - nodes' }
 CTTrieNodeTest >> testIsLeafWikipediaExample [
 
 	self assert: (trie find: 'to') isLeaf.
@@ -41,7 +42,7 @@ CTTrieNodeTest >> testIsLeafWikipediaExample [
 	self assert: (trie isCompressed)
 ]
 
-{ #category : #'tests - nodes' }
+{ #category : 'tests - nodes' }
 CTTrieNodeTest >> testIsNode [
 	| aTrie aWord aLongerWord aNode |
 	aTrie := self newInstance.
@@ -74,7 +75,7 @@ CTTrieNodeTest >> testIsNode [
 	self deny: trie rootNode isNode
 ]
 
-{ #category : #'tests - nodes' }
+{ #category : 'tests - nodes' }
 CTTrieNodeTest >> testIsNotCompressed [
 
 	| aTrie |
@@ -90,7 +91,7 @@ CTTrieNodeTest >> testIsNotCompressed [
 	self deny: aTrie isCompressed
 ]
 
-{ #category : #'tests - nodes' }
+{ #category : 'tests - nodes' }
 CTTrieNodeTest >> testIsRoot [
 	| aTrie aWord aLongerWord aNode |
 	aTrie := self newInstance.
@@ -123,7 +124,7 @@ CTTrieNodeTest >> testIsRoot [
 	self assert: trie rootNode isRoot
 ]
 
-{ #category : #'tests - nodes' }
+{ #category : 'tests - nodes' }
 CTTrieNodeTest >> testIsWord [
 	| aTrie aWord aLongerWord aNode |
 	aTrie := self newInstance.
@@ -145,7 +146,7 @@ CTTrieNodeTest >> testIsWord [
 	self assert: aLongerWord isWord
 ]
 
-{ #category : #'tests - nodes' }
+{ #category : 'tests - nodes' }
 CTTrieNodeTest >> testIsWordWikipediaExample [
 
 	self assert: (trie find: 'to') isWord.
