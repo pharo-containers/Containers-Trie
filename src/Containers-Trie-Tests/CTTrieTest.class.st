@@ -4,12 +4,13 @@ SUnit tests for class Trie.
 For licensing, see class method #license
 "
 Class {
-	#name : #CTTrieTest,
-	#superclass : #AbstractCTTrieTest,
-	#category : #'Containers-Trie-Tests'
+	#name : 'CTTrieTest',
+	#superclass : 'AbstractCTTrieTest',
+	#category : 'Containers-Trie-Tests',
+	#package : 'Containers-Trie-Tests'
 }
 
-{ #category : #license }
+{ #category : 'license' }
 CTTrieTest class >> license [
 	"
 	Author: Benoit St-Jean
@@ -19,7 +20,7 @@ CTTrieTest class >> license [
 	"
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 CTTrieTest >> testAddValueWithBlock [
 	| aTrie aBlock |
 	
@@ -58,7 +59,7 @@ CTTrieTest >> testAddValueWithBlock [
 	self assert: (aTrie isCompressed)	
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 CTTrieTest >> testAddWord [
 	| unTrie |
 	unTrie := self newInstance.
@@ -68,7 +69,7 @@ CTTrieTest >> testAddWord [
 	self assert: (unTrie find: 'bon') nodeValue equals: 3
 ]
 
-{ #category : #'tests - querying' }
+{ #category : 'tests - querying' }
 CTTrieTest >> testAllValues [
 	| aTrie |
 
@@ -80,7 +81,7 @@ CTTrieTest >> testAllValues [
 	self assertCollection: #(1 2 3) hasSameElements: aTrie allValues
 ]
 
-{ #category : #'tests - testing' }
+{ #category : 'tests - testing' }
 CTTrieTest >> testAnEmptyTrieDoesNotContainPrefix [
 
 	self deny: (self newInstance containsPrefix: 'z').
@@ -88,7 +89,7 @@ CTTrieTest >> testAnEmptyTrieDoesNotContainPrefix [
 	
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 CTTrieTest >> testAt [
 	| aTrie |
 
@@ -99,7 +100,7 @@ CTTrieTest >> testAt [
 	self should: [aTrie at: 'two'] raise: KeyNotFound.	
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 CTTrieTest >> testAtIfAbsent [
 	| aTrie |
 
@@ -110,7 +111,7 @@ CTTrieTest >> testAtIfAbsent [
 	self assert: (aTrie at: 'two' ifAbsent: [2]) equals: 2.	
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 CTTrieTest >> testAtPut [
 	| aTrie |
 
@@ -134,7 +135,7 @@ CTTrieTest >> testAtPut [
 	self assert: (aTrie find: 'four') nodeValue equals: 4
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 CTTrieTest >> testAtUpdate [
 	| aTrie |
 
@@ -150,7 +151,7 @@ CTTrieTest >> testAtUpdate [
 	self assert: aTrie isCompressed.
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 CTTrieTest >> testAtUpdateInitial [
 	| aTrie |
 
@@ -168,7 +169,7 @@ CTTrieTest >> testAtUpdateInitial [
 	self assert: aTrie isCompressed.
 ]
 
-{ #category : #'tests - adding' }
+{ #category : 'tests - adding' }
 CTTrieTest >> testAtUpdateWithNilValueRemovesTheKey [
 	| aTrie |
 
@@ -182,7 +183,7 @@ CTTrieTest >> testAtUpdateWithNilValueRemovesTheKey [
 	self assert: aTrie isCompressed.
 ]
 
-{ #category : #'tests - testing' }
+{ #category : 'tests - testing' }
 CTTrieTest >> testContains [
 	| aTrie |
 	aTrie := self newInstance.
@@ -211,7 +212,7 @@ CTTrieTest >> testContains [
 	self deny: (trie contains: 'innz')
 ]
 
-{ #category : #'tests - testing' }
+{ #category : 'tests - testing' }
 CTTrieTest >> testContainsPrefix [
 
 	self deny: (trie containsPrefix: 'z').
@@ -236,7 +237,7 @@ CTTrieTest >> testContainsPrefix [
 	self deny: (trie containsPrefix: 'innz')
 ]
 
-{ #category : #'tests - nodes' }
+{ #category : 'tests - nodes' }
 CTTrieTest >> testIsCompressed [
 
 	| aTrie |
@@ -250,7 +251,7 @@ CTTrieTest >> testIsCompressed [
 	self assert: aTrie isCompressed
 ]
 
-{ #category : #'tests - removing' }
+{ #category : 'tests - removing' }
 CTTrieTest >> testRemoveKey [
 	| aTrie |
 
@@ -267,7 +268,7 @@ CTTrieTest >> testRemoveKey [
 	self assert: aTrie isCompressed.
 ]
 
-{ #category : #'tests - removing' }
+{ #category : 'tests - removing' }
 CTTrieTest >> testRemoveKeyIfAbsent [
 	| aTrie |
 
@@ -284,7 +285,7 @@ CTTrieTest >> testRemoveKeyIfAbsent [
 	self assert: aTrie isCompressed.
 ]
 
-{ #category : #'tests - removing' }
+{ #category : 'tests - removing' }
 CTTrieTest >> testRemoveKeyOfANodeWithChilds [
 	| aTrie |
 
@@ -311,7 +312,7 @@ CTTrieTest >> testRemoveKeyOfANodeWithChilds [
 	
 ]
 
-{ #category : #'tests - removing' }
+{ #category : 'tests - removing' }
 CTTrieTest >> testRemoveKeyOfANodeWithoutChilds [
 	| aTrie |
 
@@ -336,7 +337,7 @@ CTTrieTest >> testRemoveKeyOfANodeWithoutChilds [
 	
 ]
 
-{ #category : #'tests - nodes' }
+{ #category : 'tests - nodes' }
 CTTrieTest >> testRemovingWikipediaExampleKeepsCompressed [
 
 	#('to' 'tea' 'ted' 'ten' 'a' 'inn' 'i' 'in') 
@@ -345,13 +346,13 @@ CTTrieTest >> testRemovingWikipediaExampleKeepsCompressed [
 
 ]
 
-{ #category : #'tests - nodes' }
+{ #category : 'tests - nodes' }
 CTTrieTest >> testWikipediaExampleIsCompressed [
 
 	self assert: trie isCompressed
 ]
 
-{ #category : #'tests - querying' }
+{ #category : 'tests - querying' }
 CTTrieTest >> testWithAllValuesBeginningWithdo [
 
 	| aTrie |
@@ -364,7 +365,7 @@ CTTrieTest >> testWithAllValuesBeginningWithdo [
 	self assertCollection: #(2 3) hasSameElements: (aTrie allValuesBeginningWith: 't')
 ]
 
-{ #category : #'tests - querying' }
+{ #category : 'tests - querying' }
 CTTrieTest >> testWithAllValuesBeginningWithdoWithEmptyCollection [
 
 	| aTrie |
@@ -373,7 +374,7 @@ CTTrieTest >> testWithAllValuesBeginningWithdoWithEmptyCollection [
 	self assertCollection: #() hasSameElements: (aTrie allValuesBeginningWith: 'z')
 ]
 
-{ #category : #'tests - querying' }
+{ #category : 'tests - querying' }
 CTTrieTest >> testWithAllValuesBeginningWithdoWithEmptyResults [
 
 	| aTrie |
@@ -386,7 +387,7 @@ CTTrieTest >> testWithAllValuesBeginningWithdoWithEmptyResults [
 	self assertCollection: #() hasSameElements: (aTrie allValuesBeginningWith: 'z')
 ]
 
-{ #category : #'tests - querying' }
+{ #category : 'tests - querying' }
 CTTrieTest >> testWithAllValuesDo [
 	| aTrie elements |
 
@@ -401,7 +402,7 @@ CTTrieTest >> testWithAllValuesDo [
 	self assertCollection: #(1 2 3) hasSameElements: elements
 ]
 
-{ #category : #'tests - querying' }
+{ #category : 'tests - querying' }
 CTTrieTest >> testWithAllValuesDoOnEmptyDoesNotCall [
 	| aTrie |
 

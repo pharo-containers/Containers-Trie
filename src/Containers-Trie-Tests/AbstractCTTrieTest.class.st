@@ -1,25 +1,26 @@
 Class {
-	#name : #AbstractCTTrieTest,
-	#superclass : #TestCase,
+	#name : 'AbstractCTTrieTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'trie'
 	],
-	#category : #'Containers-Trie-Tests'
+	#category : 'Containers-Trie-Tests',
+	#package : 'Containers-Trie-Tests'
 }
 
-{ #category : #utils }
+{ #category : 'utils' }
 AbstractCTTrieTest >> classUnderTest [
 	
 	^ CTTrie
 ]
 
-{ #category : #utils }
+{ #category : 'utils' }
 AbstractCTTrieTest >> newInstance [
 	
 	^ self classUnderTest new
 ]
 
-{ #category : #running }
+{ #category : 'running' }
 AbstractCTTrieTest >> setUp [
 	"example taken from  <http://en.wikipedia.org/wiki/Trie>"
 

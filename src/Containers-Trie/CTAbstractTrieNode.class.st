@@ -3,21 +3,22 @@ I am an abstract node used to handle the common behaviour and state of the Trie 
 I have a collection of children and a value.
 "
 Class {
-	#name : #CTAbstractTrieNode,
-	#superclass : #Object,
+	#name : 'CTAbstractTrieNode',
+	#superclass : 'Object',
 	#instVars : [
 		'nodeValue',
 		'children'
 	],
-	#category : #'Containers-Trie'
+	#category : 'Containers-Trie',
+	#package : 'Containers-Trie'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTAbstractTrieNode >> children [
 	^ children
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CTAbstractTrieNode >> isCompressed [
 
 	^ self children
@@ -25,24 +26,24 @@ CTAbstractTrieNode >> isCompressed [
 		ifNotEmpty: [ self children allSatisfy: [ :aChild | aChild isCompressed ] ]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CTAbstractTrieNode >> isLeaf [
 
 	^self isWord and: [self children isEmpty]
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CTAbstractTrieNode >> isWord [
 
 	^self nodeValue notNil
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTAbstractTrieNode >> nodeValue [
 	^ nodeValue
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTAbstractTrieNode >> nodeValue: anObject [
 	nodeValue := anObject
 ]

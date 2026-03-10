@@ -18,36 +18,37 @@ Private methods are:
 
 "
 Class {
-	#name : #CTOptimizedTrieNode,
-	#superclass : #CTAbstractTrieNode,
-	#category : #'Containers-Trie'
+	#name : 'CTOptimizedTrieNode',
+	#superclass : 'CTAbstractTrieNode',
+	#category : 'Containers-Trie',
+	#package : 'Containers-Trie'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTOptimizedTrieNode >> at: aKey put: aNode [
 
 	children := children , { aKey. aNode }
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTOptimizedTrieNode >> children [
 	
 	^ children pairsCollect: [ :aKey :aChild | aChild ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTOptimizedTrieNode >> childrenDictionary [
 	
 	^ Dictionary newFromPairs: children
 ]
 
-{ #category : #'looking-up' }
+{ #category : 'looking-up' }
 CTOptimizedTrieNode >> findChildWithString: aString [
 
 	^ self findChildWithString: aString storingAncestors: OrderedCollection new adding: false.
 ]
 
-{ #category : #'looking-up' }
+{ #category : 'looking-up' }
 CTOptimizedTrieNode >> findChildWithString: aString storingAncestors: ancestors adding: isAdding [ 
 
 	| newChild keyIndexToSplit splitKey keyToSplit nodeToSplit splittedNode |
@@ -89,7 +90,7 @@ CTOptimizedTrieNode >> findChildWithString: aString storingAncestors: ancestors 
 		
 ]
 
-{ #category : #'looking-up' }
+{ #category : 'looking-up' }
 CTOptimizedTrieNode >> findKeyIndexToSplit: aString [ 
 	
 	| indexToSplit lengthOfPrefix index |
@@ -109,20 +110,20 @@ CTOptimizedTrieNode >> findKeyIndexToSplit: aString [
 	^ indexToSplit.
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CTOptimizedTrieNode >> initialize [
 	super initialize.
 	children := #().
 
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTOptimizedTrieNode >> keys [
 
 	^ children pairsCollect: [ :aKey :aChild | aKey ]
 ]
 
-{ #category : #printing }
+{ #category : 'printing' }
 CTOptimizedTrieNode >> printOn: aStream [
 
 	super printOn: aStream.
@@ -134,7 +135,7 @@ CTOptimizedTrieNode >> printOn: aStream [
 		print: self nodeValue.
 ]
 
-{ #category : #'adding - removing' }
+{ #category : 'adding - removing' }
 CTOptimizedTrieNode >> removeNode: aNode [ 
 	
 	| nodeIndex keyIndex |
@@ -147,7 +148,7 @@ CTOptimizedTrieNode >> removeNode: aNode [
 	children := children reject: [ :e | e isNil ].
 ]
 
-{ #category : #'adding - removing' }
+{ #category : 'adding - removing' }
 CTOptimizedTrieNode >> splitOn: newKey oldKey: oldKey [ 
 	
 	| index newParent |
@@ -160,7 +161,7 @@ CTOptimizedTrieNode >> splitOn: newKey oldKey: oldKey [
 	^ newParent
 ]
 
-{ #category : #iterating }
+{ #category : 'iterating' }
 CTOptimizedTrieNode >> withAllChildrenDo: aBlock [ 
 
 	aBlock cull: self.

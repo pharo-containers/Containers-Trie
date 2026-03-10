@@ -1,20 +1,21 @@
 Class {
-	#name : #CTSuffixTreeTest,
-	#superclass : #TestCase,
+	#name : 'CTSuffixTreeTest',
+	#superclass : 'TestCase',
 	#instVars : [
 		'suffixTree'
 	],
-	#category : #'Containers-Trie-Tests'
+	#category : 'Containers-Trie-Tests',
+	#package : 'Containers-Trie-Tests'
 }
 
-{ #category : #running }
+{ #category : 'running' }
 CTSuffixTreeTest >> setUp [
 	
 	super setUp.
 	suffixTree := CTSuffixTree new
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CTSuffixTreeTest >> testAddingAStringAddsAllSubstring [
 
 	suffixTree atSuffixesOf: 'banana' put: 1.
@@ -24,7 +25,7 @@ CTSuffixTreeTest >> testAddingAStringAddsAllSubstring [
 	
 ]
 
-{ #category : #tests }
+{ #category : 'tests' }
 CTSuffixTreeTest >> testRemovingAStringRemovesAllSuffixes [
 
 	suffixTree atSuffixesOf: 'banana' put: 1.

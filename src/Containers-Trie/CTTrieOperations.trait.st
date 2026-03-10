@@ -4,11 +4,12 @@ It requires the user to implement #at:update:initial to add/update elements, #fi
 All the other operations are performed using them.
 "
 Trait {
-	#name : #CTTrieOperations,
-	#category : #'Containers-Trie'
+	#name : 'CTTrieOperations',
+	#category : 'Containers-Trie',
+	#package : 'Containers-Trie'
 }
 
-{ #category : #adding }
+{ #category : 'adding' }
 CTTrieOperations >> add: aString valueWithBlock: aValueBlock [
 	"Add the word <aString> into the Trie structure and set its value by evaluating <aValueBlock> with one parameter.
 	
@@ -19,26 +20,26 @@ CTTrieOperations >> add: aString valueWithBlock: aValueBlock [
 	self at: aString put: (aValueBlock value: aString)
 ]
 
-{ #category : #querying }
+{ #category : 'querying' }
 CTTrieOperations >> allValues [
 
 	^ OrderedCollection streamContents: [ :s | self withAllValuesDo: [ :aValue | s nextPut: aValue ] ]
 ]
 
-{ #category : #querying }
+{ #category : 'querying' }
 CTTrieOperations >> allValuesBeginningWith: aPrefix [
 
 	^ OrderedCollection streamContents: [ :s | self withAllValuesBeginningWith: aPrefix do: [ :aValue | s nextPut: aValue ] ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTTrieOperations >> at: key [ 
 	"Answer the value associated with the key."
 
 	^ self at: key ifAbsent: [self errorKeyNotFound: key]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTTrieOperations >> at: aString ifAbsent: aBlock [ 
 	"Answer the value associated with the aString or, if aString isn't found,
 	answer the result of evaluating aBlock."
@@ -46,7 +47,7 @@ CTTrieOperations >> at: aString ifAbsent: aBlock [
 	^ (self find: aString) ifNil: aBlock ifNotNil: [ :aNode | aNode nodeValue ]
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTTrieOperations >> at: aString put: anObject [
 	"Add the word aString into the Trie structure and set its value to anObject.
 	If the key exists it replaces the value.
@@ -57,14 +58,14 @@ CTTrieOperations >> at: aString put: anObject [
 	
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTTrieOperations >> at: key update: updateBlock [ 
 	"I am used to update the value at a given key, or if the key does not exist, to throw an error"
 
 	self at: key update: updateBlock initial: [ self errorKeyNotFound: key ].
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTTrieOperations >> at: aString update: updateBlock initial: initBlocktOrValue [
 	"I am used to update the value at a given key. The updateBlock is passed 
 	the existing value, and the result of the block is stored back.
@@ -74,7 +75,7 @@ CTTrieOperations >> at: aString update: updateBlock initial: initBlocktOrValue [
 	self explicitRequirement
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CTTrieOperations >> contains: aString [
 	"Answer a <Boolean> telling if the receiver contains the *word* <aString>"
 
@@ -86,20 +87,20 @@ CTTrieOperations >> contains: aString [
 	
 ]
 
-{ #category : #testing }
+{ #category : 'testing' }
 CTTrieOperations >> containsPrefix: aString [
 	"Answer a <Boolean> telling if the receiver contains  <aString> (either as a prefix or complete word)"
 
 	^ (self findPrefix: aString) isNotNil
 ]
 
-{ #category : #private }
+{ #category : 'private' }
 CTTrieOperations >> errorKeyNotFound: key [
 
 	^ KeyNotFound signalFor: key
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 CTTrieOperations >> find: aString [ 
 	"Answers a <CTTrieNode> if the word <aString> is found in the receiver, <nil> otherwise"
 	
@@ -117,13 +118,13 @@ CTTrieOperations >> find: aString [
 	
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'private - accessing' }
 CTTrieOperations >> findPrefix: aString [
 
 	self explicitRequirement
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CTTrieOperations >> occupationRate [
 
 	| intermediateNodes nodes |
@@ -139,19 +140,19 @@ CTTrieOperations >> occupationRate [
 	^ ((nodes - intermediateNodes) / nodes) asFloat
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 CTTrieOperations >> removeKey: aString [
 
 	^ self removeKey: aString ifAbsent: [ self errorKeyNotFound: aString ]
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 CTTrieOperations >> removeKey: aString ifAbsent: anAbsentBlock [
 
 	self explicitRequirement
 ]
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTTrieOperations >> size [
 
 	"I return the number of entries that I have"
@@ -161,7 +162,7 @@ CTTrieOperations >> size [
 	^ count
 ]
 
-{ #category : #querying }
+{ #category : 'querying' }
 CTTrieOperations >> withAllValuesBeginningWith: aPrefix do: aBlock [
 	
 	| node |
@@ -171,7 +172,7 @@ CTTrieOperations >> withAllValuesBeginningWith: aPrefix do: aBlock [
 	node withAllChildrenDo: [ :aNode | aNode isWord ifTrue: [ aBlock cull: aNode nodeValue ] ]
 ]
 
-{ #category : #querying }
+{ #category : 'querying' }
 CTTrieOperations >> withAllValuesDo: aBlock [ 
 
 	"It iterates all the values and evaluates aBlock on each of the values"

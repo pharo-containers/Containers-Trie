@@ -25,12 +25,13 @@ Optimized trie for aWord -> v1 and aTord -> v2
 
 "
 Class {
-	#name : #CTOptimizedTrie,
-	#superclass : #CTTrie,
-	#category : #'Containers-Trie'
+	#name : 'CTOptimizedTrie',
+	#superclass : 'CTTrie',
+	#category : 'Containers-Trie',
+	#package : 'Containers-Trie'
 }
 
-{ #category : #accessing }
+{ #category : 'accessing' }
 CTOptimizedTrie >> at: aString update: updateBlock initial: initBlocktOrValue [
 	"I am used to update the value at a given key. The updateBlock is passed 
 	the existing value, and the result of the block is stored back.
@@ -50,20 +51,41 @@ CTOptimizedTrie >> at: aString update: updateBlock initial: initBlocktOrValue [
 		
 ]
 
-{ #category : #'private - accessing' }
+{ #category : 'removing' }
+CTOptimizedTrie >> compressNode: aNode ancestors: aCollection [
+	| parent nodeToCheck grandchildKey grandchildNode myChildIndex myKeyIndex currentKey |
+	super compressNode: aNode ancestors: aCollection.
+
+	aCollection size >= 2 ifTrue: [ 
+		nodeToCheck := aCollection last.
+		parent := aCollection at: aCollection size - 1.
+
+		(nodeToCheck isWord not and: [ nodeToCheck keys size = 1 ]) ifTrue: [ 
+			grandchildKey := nodeToCheck keys first.
+			grandchildNode := nodeToCheck children first.
+			
+			myChildIndex := (parent instVarNamed: 'children') detectIndex: [ :each | each = nodeToCheck ].
+			myKeyIndex := myChildIndex - 1.
+			currentKey := (parent instVarNamed: 'children') at: myKeyIndex.
+			
+			(parent instVarNamed: 'children') at: myKeyIndex put: (currentKey , grandchildKey).
+			(parent instVarNamed: 'children') at: myChildIndex put: grandchildNode ] ]
+]
+
+{ #category : 'private - accessing' }
 CTOptimizedTrie >> findPrefix: aString [
 
 	^ root findChildWithString: aString
 
 ]
 
-{ #category : #initialization }
+{ #category : 'initialization' }
 CTOptimizedTrie >> nodeSpecies [
 	
 	^ CTOptimizedTrieNode 
 ]
 
-{ #category : #removing }
+{ #category : 'removing' }
 CTOptimizedTrie >> removeKey: aString ifAbsent: anAbsentBlock [
 	| currentNode oldValue ancestors |
 

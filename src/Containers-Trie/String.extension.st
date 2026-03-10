@@ -1,13 +1,13 @@
-Extension { #name : #String }
+Extension { #name : 'String' }
 
-{ #category : #'*Containers-Trie' }
+{ #category : '*Containers-Trie' }
 String >> suffixes [
 	
 	self ifEmpty: [ ^ #() ].	
 	^ { self } , self allButFirst suffixes
 ]
 
-{ #category : #'*Containers-Trie' }
+{ #category : '*Containers-Trie' }
 String >> suffixesDo: aBlock minLength: minLength [
 
 	2 to: self size - minLength do: [ :initial | 
