@@ -12,7 +12,7 @@ can only load the collection they need without 100 of related collections.
 [![License](https://img.shields.io/badge/license-MIT-blue.svg)]()
 [![Pharo version](https://img.shields.io/badge/Pharo-7.0-%23aac9ff.svg)](https://pharo.org/download)
 [![Pharo version](https://img.shields.io/badge/Pharo-8.0-%23aac9ff.svg)](https://pharo.org/download)
-
+[![Coverage Status](https://coveralls.io/repos/github/pharo-containers/Containers-Trie/badge.svg?branch=master)](https://coveralls.io/github/pharo-containers/Containers-Trie?branch=master)
 
 ## Loading
 
