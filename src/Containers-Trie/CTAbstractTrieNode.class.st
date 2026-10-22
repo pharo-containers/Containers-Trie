@@ -1,5 +1,5 @@
 "
-I am an abstract node used to handle the common behaviour and state of the Trie node implementations.
+I am an abstract node used to handle the common behavior and state of the Trie nodes.
 I have a collection of children and a value.
 "
 Class {
@@ -9,8 +9,9 @@ Class {
 		'nodeValue',
 		'children'
 	],
-	#category : 'Containers-Trie',
-	#package : 'Containers-Trie'
+	#category : 'Containers-Trie-Core',
+	#package : 'Containers-Trie',
+	#tag : 'Core'
 }
 
 { #category : 'accessing' }

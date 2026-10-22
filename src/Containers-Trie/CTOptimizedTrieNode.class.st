@@ -1,6 +1,6 @@
 "
 I am the node of a optimized Trie node, I have the children in an array as pairs. 
-I am used inside a CTOptimizedTrie
+I am used inside a `CTOptimizedTrie`
 The first element is the key and the second the node.
 These nodes have a string as a key, not a single character.
 
@@ -20,8 +20,9 @@ Private methods are:
 Class {
 	#name : 'CTOptimizedTrieNode',
 	#superclass : 'CTAbstractTrieNode',
-	#category : 'Containers-Trie',
-	#package : 'Containers-Trie'
+	#category : 'Containers-Trie-Optimized',
+	#package : 'Containers-Trie',
+	#tag : 'Optimized'
 }
 
 { #category : 'accessing' }

@@ -5,8 +5,9 @@ All the other operations are performed using them.
 "
 Trait {
 	#name : 'CTTrieOperations',
-	#category : 'Containers-Trie',
-	#package : 'Containers-Trie'
+	#category : 'Containers-Trie-Core',
+	#package : 'Containers-Trie',
+	#tag : 'Core'
 }
 
 { #category : 'adding' }

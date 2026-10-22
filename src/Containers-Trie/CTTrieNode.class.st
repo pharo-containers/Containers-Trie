@@ -1,10 +1,10 @@
 "
-I implement the node of a CTTrie.
+I implement the node of a `CTTrie`.
 I have a character and a set of children. 
 Also I can have a value if I am complete word, if I am a prefix, I have nil as value.
-Use ifLeaf, isNode, isRoot, and isWord to test my condition.
+Use messsages `ifLeaf`, `isNode`, `isRoot`, and `isWord` to test my condition.
 
-Users should not use objects of this class directly, they should use CTTrie.
+Users should not use objects of this class directly, they should use `CTTrie`.
 "
 Class {
 	#name : 'CTTrieNode',
@@ -12,8 +12,9 @@ Class {
 	#instVars : [
 		'character'
 	],
-	#category : 'Containers-Trie',
-	#package : 'Containers-Trie'
+	#category : 'Containers-Trie-Core',
+	#package : 'Containers-Trie',
+	#tag : 'Core'
 }
 
 { #category : 'private' }
@@ -80,17 +81,17 @@ CTTrieNode >> printOn: aStream [
 	super printOn: aStream.
 	aStream
 		cr;
-		nextPutAll: 'character : ';
+		nextPutAll: 'character: ';
 		print: self character;
 		cr;
-		nextPutAll: 'children : ';
+		nextPutAll: 'children: ';
 		print: self children keys asSortedCollection;
 		cr;
-		nextPutAll: 'value : ';
+		nextPutAll: 'value: ';
 		print: self nodeValue;
 		cr;
-		nextPutAll: 'leaf : ';
-		print: self isLeaf.		
+		nextPutAll: 'leaf: ';
+		print: self isLeaf.
 ]
 
 { #category : 'private' }

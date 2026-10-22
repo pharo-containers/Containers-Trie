@@ -27,8 +27,9 @@ Optimized trie for aWord -> v1 and aTord -> v2
 Class {
 	#name : 'CTOptimizedTrie',
 	#superclass : 'CTTrie',
-	#category : 'Containers-Trie',
-	#package : 'Containers-Trie'
+	#category : 'Containers-Trie-Optimized',
+	#package : 'Containers-Trie',
+	#tag : 'Optimized'
 }
 
 { #category : 'accessing' }

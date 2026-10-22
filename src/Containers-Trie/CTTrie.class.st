@@ -19,8 +19,9 @@ Class {
 	#instVars : [
 		'root'
 	],
-	#category : 'Containers-Trie',
-	#package : 'Containers-Trie'
+	#category : 'Containers-Trie-Core',
+	#package : 'Containers-Trie',
+	#tag : 'Core'
 }
 
 { #category : 'instance creation - bulk' }

@@ -20,8 +20,9 @@ Class {
 	#instVars : [
 		'trie'
 	],
-	#category : 'Containers-Trie',
-	#package : 'Containers-Trie'
+	#category : 'Containers-Trie-Suffix',
+	#package : 'Containers-Trie',
+	#tag : 'Suffix'
 }
 
 { #category : 'accessing' }
